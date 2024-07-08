@@ -1,14 +1,13 @@
 package ai;
 
 import models.Ant;
-import models.NearestNeighborList;
 import models.pheromoneTrail.PheromoneTrail;
 import models.tspInstance.TSPInstance;
 import utils.PheromoneTrailFactory;
 import utils.TSPLibParser;
 
 import java.io.IOException;
-import java.util.Random;
+import java.util.SplittableRandom;
 import java.util.stream.IntStream;
 
 public class ACO_TSP {
@@ -17,14 +16,16 @@ public class ACO_TSP {
     private final int numberOfNodes;
     private final Ant[] ants;
     private int[] bestTour;
-    private double bestDistance;
-    private static final Random rn = new Random();
+    private int bestDistance;
+    private static final SplittableRandom rn = new SplittableRandom();
 
     //Parameters
     private final int numberOfIterations;
     public static final double ALPHA = 1;
     public static final double BETA = 4;
-    public static final double EVAPORATION_RATE = 0.4;
+    public static final double EVAPORATION_RATE = 0.5;
+    private static final int NO_IMPROVEMENT_LIMIT = 30;
+    private static final double ACCEPTED_IMPROVEMENT_RATE = 0.97;
 
     public ACO_TSP(String tspInstancePath, String tspImplementationIdentifier, String pheromoneTrailImplementationIdentifier, int numberOfAnts, int numberOfIterations) throws IOException {
         TSPLibParser tspLibParser = new TSPLibParser();
@@ -33,23 +34,45 @@ public class ACO_TSP {
         pheromoneTrails = PheromoneTrailFactory.getInstance(pheromoneTrailImplementationIdentifier, numberOfNodes);
         ants = initAntColony(numberOfAnts);
         this.numberOfIterations = numberOfIterations;
-    }
 
+    }
     public void compute() {
         if (bestTour == null) {
             bestTour = new int[numberOfNodes + 1];
-            bestDistance = Double.POSITIVE_INFINITY;
+            bestDistance = Integer.MAX_VALUE;
 
+            int iteration = 0;
+            int noImprovementCount = 0;
+            Ant bestAntInIteration;
 
-            for (int iteration = 0; iteration < numberOfIterations; iteration++) {
+            while(iteration++ < numberOfIterations && noImprovementCount < NO_IMPROVEMENT_LIMIT){
+                bestAntInIteration = null;
                 for (Ant ant : ants) {
                     performMoves(ant);
+                    if (bestAntInIteration == null || ant.getTourDistance() < bestAntInIteration.getTourDistance()) {
+                        bestAntInIteration = ant;
+                    }
+                }
+                assert bestAntInIteration != null;
+                int bestIterationTour = bestAntInIteration.getTourDistance();
+
+                if (bestIterationTour < bestDistance) {
+                    if (((double) bestIterationTour / bestDistance) > ACCEPTED_IMPROVEMENT_RATE){
+                        noImprovementCount++;
+                    }
+                    else {
+                        noImprovementCount = 0;
+                    }
+                    bestDistance = bestIterationTour;
+                    System.arraycopy(bestAntInIteration.getTour(), 0, bestTour, 0, numberOfNodes + 1);
+                }
+                else {
+                    noImprovementCount++;
                 }
                 updatePheromones();
             }
         }
     }
-
     private Ant[] initAntColony(int numberOfAnts) {
         Ant[] ants = new Ant[numberOfAnts];
         int numberOfNodes = tspInstance.getNumberOfNodes();
@@ -58,7 +81,6 @@ public class ACO_TSP {
         }
         return ants;
     }
-
     private void performMoves(Ant ant) {
         ant.resetState();
         for (int step = 1; step < numberOfNodes; step++) {
@@ -67,23 +89,13 @@ public class ACO_TSP {
         }
         int startPosition = ant.getNodeAtPositionInTour(0);
         ant.moveTo(startPosition, tspInstance.getDistance(ant.getCurrentPosition(), startPosition));
-
-        updateBestScore(ant);
     }
-
-    private void updateBestScore(Ant ant) {
-        if (ant.getTourDistance() < bestDistance) {
-            bestDistance = ant.getTourDistance();
-            System.arraycopy(ant.getTour(), 0, bestTour, 0, numberOfNodes + 1);
-        }
-    }
-
     private int selectNextPosition(Ant ant){
         double[] selectionProbabilities = calculateAndNormalizeProbabilitiesFor(ant);
 
         double upperBound = rn.nextDouble();
         double sumProbabilities = 0;
-        //picking next position
+
 
         for (int i = 0; i < numberOfNodes; i++) {
             sumProbabilities += selectionProbabilities[i];
@@ -120,13 +132,11 @@ public class ACO_TSP {
         }
         return selectionProbabilities;
     }
-
-
     private void updatePheromones(){
         pheromoneTrails.evaporatePheromones(EVAPORATION_RATE);
 
         for(Ant ant: ants){
-            double contribution = 1/ant.getTourDistance();
+            double contribution = 1.0 / ant.getTourDistance();
             for (int i = 0; i < numberOfNodes - 1; i++) {
                 int from = ant.getNodeAtPositionInTour(i);
                 int to = ant.getNodeAtPositionInTour(i+1);

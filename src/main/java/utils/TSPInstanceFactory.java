@@ -1,7 +1,9 @@
 package utils;
 
 import models.tspInstance.AdjacencyMatrix;
+import models.tspInstance.HalfAdjacencyMatrix;
 import models.tspInstance.TSPInstance;
+import models.tspInstance.UndirectedGraph;
 
 public class TSPInstanceFactory {
     public static TSPInstance getInstance(String implementationIdentifier, int numberOfNodes){
@@ -11,6 +13,12 @@ public class TSPInstanceFactory {
         switch (implementationIdentifier) {
             case "ADJ_MATRIX" -> {
                 return new AdjacencyMatrix(numberOfNodes);
+            }
+            case "GRAPH" -> {
+                return new UndirectedGraph(numberOfNodes);
+            }
+            case "HALF_ADJ_MATRIX" -> {
+                return new HalfAdjacencyMatrix(numberOfNodes);
             }
             default -> throw new IllegalArgumentException("Illegal name");
         }

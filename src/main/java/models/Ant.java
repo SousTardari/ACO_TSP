@@ -1,15 +1,15 @@
 package models;
 
 import java.util.Arrays;
-import java.util.Random;
+import java.util.SplittableRandom;
 
 public class Ant {
-    private double tourDistance;
+    private int tourDistance;
     private int nextTourIndex;
     private final boolean[] visited;
     private final int[] tour;
     private int currentPosition;
-    private static final Random random = new Random();
+    private static final SplittableRandom random = new SplittableRandom();
     private static Integer NUMBER_OF_NODES;
 
     public Ant(int numberOfNodes){
@@ -19,7 +19,6 @@ public class Ant {
         tour = new int[NUMBER_OF_NODES+1];
         visited = new boolean[NUMBER_OF_NODES];
     }
-
     public void resetState(){
         nextTourIndex = 0;
         tourDistance = 0;
@@ -33,7 +32,7 @@ public class Ant {
     public boolean isVisited(int position){
         return visited[position];
     }
-    public void moveTo(int newPosition, double distance){
+    public void moveTo(int newPosition, int distance){
         currentPosition = newPosition;
         tour[nextTourIndex++] = currentPosition;
         visited[currentPosition] = true;
@@ -42,7 +41,7 @@ public class Ant {
     public int getNodeAtPositionInTour(int n){
       return tour[n];
     }
-    public double getTourDistance() {
+    public int getTourDistance() {
         return tourDistance;
     }
     public int[] getTour() {

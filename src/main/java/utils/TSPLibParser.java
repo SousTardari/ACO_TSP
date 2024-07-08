@@ -18,7 +18,6 @@ public class TSPLibParser {
     public TSPInstance parseTCPInstanceFromFile(String filePath, String implementation) throws IOException {
         initDataBeforeParsing();
         readDataFromFile(filePath);
-        System.out.println(numberOfNodes);
         TSPInstance TSPInstance = TSPInstanceFactory.getInstance(implementation,numberOfNodes);
         fillData(TSPInstance);
         return TSPInstance;
@@ -56,17 +55,22 @@ public class TSPLibParser {
 
     private void fillData(TSPInstance TSPInstance){
         for (int i = 0; i < numberOfNodes; i++) {
+            double[] iNodeCoord = nodeCoordMap.get(i);
             for (int j = i; j < numberOfNodes; j++) {
                 if (i != j){
-                    double[] iNodeCoord = nodeCoordMap.get(i);
                     double[] jNodeCoord = nodeCoordMap.get(j);
-                    double value = Math.round(Math.sqrt(
-                            Math.pow(iNodeCoord[0] - jNodeCoord[0],2) + Math.pow(iNodeCoord[1] - jNodeCoord[1],2)));
+                    int value = computeDistance(iNodeCoord,jNodeCoord);
 
                     TSPInstance.addEdge(i,j,value);
-                    TSPInstance.addEdge(j,i,value);
                 }
             }
         }
     }
+    private int computeDistance(double[] coord1, double[] coord2) {
+        double dx = coord1[0] - coord2[0];
+        double dy = coord1[1] - coord2[1];
+        return (int) Math.round(Math.sqrt(dx * dx + dy * dy));
+    }
+
+
 }

@@ -1,5 +1,6 @@
 package utils;
 
+import models.pheromoneTrail.HalfPheromoneMatrix;
 import models.pheromoneTrail.MatrixPheromoneTrail;
 import models.pheromoneTrail.PheromoneTrail;
 
@@ -11,6 +12,9 @@ public class PheromoneTrailFactory {
         switch (implementationIdentifier) {
             case "MATRIX" -> {
                 return new MatrixPheromoneTrail(numberOfNodes);
+            }
+            case "HALF_PH_MATRIX" -> {
+                return new HalfPheromoneMatrix(numberOfNodes);
             }
             default -> throw new IllegalArgumentException("Illegal name");
         }
