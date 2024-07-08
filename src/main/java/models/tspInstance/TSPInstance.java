@@ -6,6 +6,7 @@ public interface TSPInstance {
     double getDistance(int firstNodeId, int secondNodeId);
     int getNumberOfNodes();
     double getAttractivity(int firstNodeId, int secondNodeId);
+    double[][] getDistances();
 
 
 }

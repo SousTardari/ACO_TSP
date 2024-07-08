@@ -1,5 +1,7 @@
 package models.tspInstance;
 
+import ai.ACO_TSP;
+
 import java.util.Arrays;
 
 public class AdjacencyMatrix implements TSPInstance {
@@ -7,6 +9,7 @@ public class AdjacencyMatrix implements TSPInstance {
     private final int numberOfNodes;
     private final double[][] distances;
     private final double[][] attractivity;
+    private int attractivityFactor;
 
     public AdjacencyMatrix(int numberOfNodes){
         this.numberOfNodes = numberOfNodes;
@@ -24,13 +27,15 @@ public class AdjacencyMatrix implements TSPInstance {
     public double getAttractivity(int firstNodeId,int secondNodeId){
         return attractivity[firstNodeId][secondNodeId];
     }
-
+    @Override
+    public double[][] getDistances() {
+        return distances;
+    }
     @Override
     public void addEdge(int firstNodeId, int secondNodeId, double distance) {
         distances[firstNodeId][secondNodeId] = distance;
-        attractivity[firstNodeId][secondNodeId] = 1.0 / distance;
+        attractivity[firstNodeId][secondNodeId] = Math.pow(1.0 / distance,ACO_TSP.BETA);
     }
-
     @Override
     public String toString() {
         return Arrays.deepToString(distances);

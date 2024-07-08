@@ -1,6 +1,6 @@
 package models.tspInstance;
 
-public class AdjacencyList {
+public class EdgeList {
 /*    List<>[] adjacencyList;
 
     public AdjacencyList(int numberOfNodes){

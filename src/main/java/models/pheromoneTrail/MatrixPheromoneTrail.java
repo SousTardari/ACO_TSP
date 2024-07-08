@@ -38,8 +38,8 @@ public class MatrixPheromoneTrail implements PheromoneTrail {
     }
 
     @Override
-    public void addContributionAt(int position1, int position2,double contribution) {
-        pheromoneMatrix[position1][position2] += contribution;
+    public void addContributionAt(int position1, int position2,double contribution,double evaporationRate) {
+        pheromoneMatrix[position1][position2] += (contribution * evaporationRate);
         pheromoneMatrix[position2][position1] = pheromoneMatrix[position1][position2];
     }
 }
