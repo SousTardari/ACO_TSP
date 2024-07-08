@@ -20,7 +20,7 @@ public class ACO_TSP {
     private static final Random rn = new Random();
 
     //Parameters
-    private int numberOfIterations;
+    private final int numberOfIterations;
     public static final double ALPHA = 1;
     public static final double BETA = 4;
     public static final double EVAPORATION_RATE = 0.1;

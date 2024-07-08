@@ -8,7 +8,7 @@ import java.util.Arrays;
 public class TestSimulation {
     public static final String TSP_INSTANCE_IMPLEMENTATION_IDENTIFIER = "ADJ_MATRIX";
     public static final String PHEROMONE_TRAIL_IMPLEMENTATION_IDENTIFIER = "MATRIX";
-    public static final String DATA_PATH = "./src/main/java/data/d1291.tsp";
+    public static final String DATA_PATH = "./src/data/d1291.tsp";
     public static final int NUMBER_OF_ITERATIONS = 150;
     public static final int NUMBER_OF_ANTS = 20;
     public static void main(String[] args) throws IOException {
