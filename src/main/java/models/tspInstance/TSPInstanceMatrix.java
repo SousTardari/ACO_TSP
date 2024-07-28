@@ -3,13 +3,13 @@ package models.tspInstance;
 import ai.ACO_TSP;
 
 
-public class AdjacencyMatrix implements TSPInstance {
+public class TSPInstanceMatrix implements TSPInstance {
     //static information
     private final int numberOfNodes;
     private final int[][] distances;
     private final double[][] attractivity;
 
-    public AdjacencyMatrix(int numberOfNodes){
+    public TSPInstanceMatrix(int numberOfNodes){
         this.numberOfNodes = numberOfNodes;
         distances = new int[numberOfNodes][numberOfNodes];
         attractivity = new double[numberOfNodes][numberOfNodes];

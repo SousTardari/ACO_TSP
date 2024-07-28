@@ -2,13 +2,13 @@ package models.tspInstance;
 
 import ai.ACO_TSP;
 
-public class HalfAdjacencyMatrix implements TSPInstance{
+public class TSPInstanceHalfMatrix implements TSPInstance{
 
     private final int numberOfNodes;
     private final int[] distances;
     private final double[] attractivity;
 
-    public HalfAdjacencyMatrix(int numberOfNodes){
+    public TSPInstanceHalfMatrix(int numberOfNodes){
         this.numberOfNodes = numberOfNodes;
         int size = numberOfNodes * (numberOfNodes - 1) / 2;
         distances = new int[size];
@@ -52,6 +52,6 @@ public class HalfAdjacencyMatrix implements TSPInstance{
     }
 
     private int getIndex(int i, int j) {
-        return i * (numberOfNodes - 1) - (i * (i + 1)) / 2 + (j - i - 1);
+        return (i * (numberOfNodes-1) - (i * (i + 1)) / 2) + (j - i);
     }
 }

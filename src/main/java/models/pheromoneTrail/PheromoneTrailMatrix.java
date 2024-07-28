@@ -1,13 +1,12 @@
 package models.pheromoneTrail;
 
 
-public class MatrixPheromoneTrail implements PheromoneTrail {
-    //TODO only one part of symentric matrix is needed
+public class PheromoneTrailMatrix implements PheromoneTrail {
     private final double[][] pheromoneMatrix;
     private final int numberOfNodes;
 
 
-    public MatrixPheromoneTrail(int numberOfNodes){
+    public PheromoneTrailMatrix(int numberOfNodes){
         this.numberOfNodes = numberOfNodes;
         pheromoneMatrix = new double[numberOfNodes][numberOfNodes];
         initializePheromones();

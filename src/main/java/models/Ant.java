@@ -22,7 +22,6 @@ public class Ant {
     public void resetState(){
         nextTourIndex = 0;
         tourDistance = 0;
-        //tour reset?
         Arrays.fill(visited,false);
         setAtRandomPosition();
     }

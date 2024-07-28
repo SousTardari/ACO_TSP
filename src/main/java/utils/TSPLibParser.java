@@ -15,7 +15,7 @@ public class TSPLibParser {
     public TSPLibParser(){
 
     }
-    public TSPInstance parseTCPInstanceFromFile(String filePath, String implementation) throws IOException {
+    public TSPInstance parseTSPInstanceFromFile(String filePath, String implementation) throws IOException {
         initDataBeforeParsing();
         readDataFromFile(filePath);
         TSPInstance TSPInstance = TSPInstanceFactory.getInstance(implementation,numberOfNodes);
@@ -51,7 +51,6 @@ public class TSPLibParser {
         }
         reader.close();
     }
-
 
     private void fillData(TSPInstance TSPInstance){
         for (int i = 0; i < numberOfNodes; i++) {

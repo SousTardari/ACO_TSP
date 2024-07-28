@@ -1,7 +1,7 @@
 package utils;
 
-import models.tspInstance.AdjacencyMatrix;
-import models.tspInstance.HalfAdjacencyMatrix;
+import models.tspInstance.TSPInstanceMatrix;
+import models.tspInstance.TSPInstanceHalfMatrix;
 import models.tspInstance.TSPInstance;
 import models.tspInstance.UndirectedGraph;
 
@@ -11,17 +11,16 @@ public class TSPInstanceFactory {
             throw new IllegalArgumentException("Number of nodes should be greater or equal 0");
         }
         switch (implementationIdentifier) {
-            case "ADJ_MATRIX" -> {
-                return new AdjacencyMatrix(numberOfNodes);
+            case "MATRIX" -> {
+                return new TSPInstanceMatrix(numberOfNodes);
             }
             case "GRAPH" -> {
                 return new UndirectedGraph(numberOfNodes);
             }
-            case "HALF_ADJ_MATRIX" -> {
-                return new HalfAdjacencyMatrix(numberOfNodes);
+            case "HALF_MATRIX" -> {
+                return new TSPInstanceHalfMatrix(numberOfNodes);
             }
             default -> throw new IllegalArgumentException("Illegal name");
         }
-
     }
 }

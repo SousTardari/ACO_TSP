@@ -6,6 +6,7 @@ import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
 
 public class UndirectedGraph implements TSPInstance {
+    // experimental Implementation
     private final Graph graph;
     private final int numberOfNodes;
     private static final String DISTANCE_ATTRIBUTE = "distance";

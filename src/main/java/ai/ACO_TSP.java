@@ -21,22 +21,28 @@ public class ACO_TSP {
 
     //Parameters
     private final int numberOfIterations;
-    public static final double ALPHA = 1;
-    public static final double BETA = 4;
-    public static final double EVAPORATION_RATE = 0.5;
+    public static double ALPHA = 1;
+    public static double BETA = 5;
+    public static double EVAPORATION_RATE = 0.5;
     private static final int NO_IMPROVEMENT_LIMIT = 30;
-    private static final double ACCEPTED_IMPROVEMENT_RATE = 0.97;
+    private static final double ACCEPTED_IMPROVEMENT_RATE = 0.995;
 
     public ACO_TSP(String tspInstancePath, String tspImplementationIdentifier, String pheromoneTrailImplementationIdentifier, int numberOfAnts, int numberOfIterations) throws IOException {
         TSPLibParser tspLibParser = new TSPLibParser();
-        tspInstance = tspLibParser.parseTCPInstanceFromFile(tspInstancePath, tspImplementationIdentifier);
+        tspInstance = tspLibParser.parseTSPInstanceFromFile(tspInstancePath, tspImplementationIdentifier);
         numberOfNodes = tspInstance.getNumberOfNodes();
         pheromoneTrails = PheromoneTrailFactory.getInstance(pheromoneTrailImplementationIdentifier, numberOfNodes);
         ants = initAntColony(numberOfAnts);
         this.numberOfIterations = numberOfIterations;
-
+        // compute memory usage of virtual machine
+        Runtime rt = Runtime.getRuntime();
+        rt.gc();
+        System.out.printf("Speicherauslastung: %d\n",(rt.totalMemory() - rt.freeMemory()) / 1000);
     }
+
     public void compute() {
+
+        // the bestTour is computed only once
         if (bestTour == null) {
             bestTour = new int[numberOfNodes + 1];
             bestDistance = Integer.MAX_VALUE;
@@ -44,8 +50,7 @@ public class ACO_TSP {
             int iteration = 0;
             int noImprovementCount = 0;
             Ant bestAntInIteration;
-
-            while(iteration++ < numberOfIterations && noImprovementCount < NO_IMPROVEMENT_LIMIT){
+            while(iteration++ < numberOfIterations  && noImprovementCount < NO_IMPROVEMENT_LIMIT){
                 bestAntInIteration = null;
                 for (Ant ant : ants) {
                     performMoves(ant);
@@ -81,6 +86,7 @@ public class ACO_TSP {
         }
         return ants;
     }
+    //builds a complete solution for an ant
     private void performMoves(Ant ant) {
         ant.resetState();
         for (int step = 1; step < numberOfNodes; step++) {

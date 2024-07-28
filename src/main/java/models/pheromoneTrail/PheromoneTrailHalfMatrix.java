@@ -3,12 +3,12 @@ package models.pheromoneTrail;
 
 import java.util.Arrays;
 
-public class HalfPheromoneMatrix implements PheromoneTrail{
+public class PheromoneTrailHalfMatrix implements PheromoneTrail{
 
     private final double[] pheromoneMatrix;
     private final int numberOfNodes;
 
-    public HalfPheromoneMatrix(int numberOfNodes){
+    public PheromoneTrailHalfMatrix(int numberOfNodes){
         this.numberOfNodes = numberOfNodes;
         int size = numberOfNodes * (numberOfNodes - 1) / 2;
         pheromoneMatrix = new double[size];
@@ -46,7 +46,7 @@ public class HalfPheromoneMatrix implements PheromoneTrail{
         if (i >= numberOfNodes || j >= numberOfNodes) {
             throw new IllegalArgumentException("Index out of bounds");
         }
-        return i * (numberOfNodes - 1) - (i * (i + 1)) / 2 + (j - i - 1);
+        return i * (numberOfNodes - 1) - (i * (i + 1)) / 2 + (j - i);
     }
 
 }
