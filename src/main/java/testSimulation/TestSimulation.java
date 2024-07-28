@@ -5,11 +5,11 @@ import ai.ACO_TSP;
 import java.io.IOException;
 
 public class TestSimulation {
-    public static final String TSP_INSTANCE_IMPLEMENTATION_IDENTIFIER = "MATRIX";
+    public static final String TSP_INSTANCE_IMPLEMENTATION_IDENTIFIER = "HALF_MATRIX";
     public static final String PHEROMONE_TRAIL_IMPLEMENTATION_IDENTIFIER = "MATRIX";
-    public static final String DATA_PATH = "./src/data/a280.tsp";
+    public static final String DATA_PATH = "./src/data/pr1002.tsp";
     public static final int NUMBER_OF_ITERATIONS = 400;
-    public static final int ITERATIONS = 5;
+    public static final int ITERATIONS = 3;
     public static final int NUMBER_OF_ANTS = 25;
     public static void main(String[] args) throws IOException {
         long avgTime = 0;
