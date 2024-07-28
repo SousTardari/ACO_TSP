@@ -10,14 +10,12 @@ public class Ant {
     private final int[] tour;
     private int currentPosition;
     private static final SplittableRandom random = new SplittableRandom();
-    private static Integer NUMBER_OF_NODES;
+    private final int numberOfNodes;
 
     public Ant(int numberOfNodes){
-        if (NUMBER_OF_NODES == null){
-            NUMBER_OF_NODES = numberOfNodes;
-        }
-        tour = new int[NUMBER_OF_NODES+1];
-        visited = new boolean[NUMBER_OF_NODES];
+        this.numberOfNodes = numberOfNodes;
+        tour = new int[this.numberOfNodes +1];
+        visited = new boolean[this.numberOfNodes];
     }
     public void resetState(){
         nextTourIndex = 0;
@@ -26,7 +24,7 @@ public class Ant {
         setAtRandomPosition();
     }
     private void setAtRandomPosition(){
-        moveTo(random.nextInt(0,NUMBER_OF_NODES),0);
+        moveTo(random.nextInt(0, numberOfNodes),0);
     }
     public boolean isVisited(int position){
         return visited[position];

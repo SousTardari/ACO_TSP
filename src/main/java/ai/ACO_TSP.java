@@ -35,9 +35,9 @@ public class ACO_TSP {
         ants = initAntColony(numberOfAnts);
         this.numberOfIterations = numberOfIterations;
         // compute memory usage of virtual machine
-        Runtime rt = Runtime.getRuntime();
+/*        Runtime rt = Runtime.getRuntime();
         rt.gc();
-        System.out.printf("Speicherauslastung: %d\n",(rt.totalMemory() - rt.freeMemory()) / 1000);
+        System.out.printf("Speicherauslastung: %d\n",(rt.totalMemory() - rt.freeMemory()) / 1000);*/
     }
 
     public void compute() {
