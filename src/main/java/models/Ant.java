@@ -5,7 +5,7 @@ import java.util.SplittableRandom;
 
 public class Ant {
     private int tourDistance;
-    private int nextTourIndex;
+    private int upcomingTourPosition;
     private final boolean[] visited;
     private final int[] tour;
     private int currentPosition;
@@ -18,7 +18,7 @@ public class Ant {
         visited = new boolean[this.numberOfNodes];
     }
     public void resetState(){
-        nextTourIndex = 0;
+        upcomingTourPosition = 0;
         tourDistance = 0;
         Arrays.fill(visited,false);
         setAtRandomPosition();
@@ -31,7 +31,7 @@ public class Ant {
     }
     public void moveTo(int newPosition, int distance){
         currentPosition = newPosition;
-        tour[nextTourIndex++] = currentPosition;
+        tour[upcomingTourPosition++] = currentPosition;
         visited[currentPosition] = true;
         tourDistance += distance;
     }
